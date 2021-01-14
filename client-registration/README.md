@@ -25,11 +25,46 @@ You are able to help them, you are so able to help them.
 
 This movie rentals shop management system should be supposed to:
 
-- List all purchased movies, including date of purchase, price and seller
-- List all clients
-- Register the rental of a set of movies to a particular client (including dates, price and eventually discounts)
-- List all due movies
-- Get a history of rented movies per client
+1) List all purchased movies, including date of purchase, price and seller
+2) List all clients
+3) Register the rental of a set of movies to a particular client (including dates, price and eventually discounts)
+4) List all due movies
+5) Get a history of rented movies per client
+6) All user interactions wil be performed through a CLI-based terminal. Nice and green.
 
-For now, there is no need for disk persistency for the registered data (as of now, I don't know how to deal with MongoDB connections with Kotlin, sorry for that ;D) and no user interface. C'mon, the shop is 80's themed. Nothing looks more like the 80's than a small green phosphor CRT monitor displaying a nice ASCII art with a cursor-based menu.
+For now, there is no need for disk persistency for the registered data (as of now, I don't know how to deal with MongoDB connections with Kotlin, sorry for that ;D) and no user interface. C'mon, the shop is 80's themed. Nothing looks more like the 80's than a small green phosphor CRT monitor displaying a nice ASCII art with a cursor-based menu. Now let's delve into the awsome details of each feature.
+
+For now, let's just explore a bit the three first ones, as they are directly related to database access. All other ones are going to be detailed in the future.
+
+### Inventory
+
+As a movie rental shop, there must be a way to register everything there is to be rented. Some professionals would call this "inventory". So, what should be registered, exactly? We don't know yet what these entries will be used for, how can we know what it should look like? Let's get the basics straight: it should be something like a movie database, so that all rentals are correctly registered. It would be enough to store:
+- Movie name
+- Any unique ID related to the movie (just like ISBN for books)
+- Genre
+
+Should we need extra data, we could simply add them to the document stored in MongoDB, no need to worry right now. For instance, let's suppose that we want to get the 5 most preferred movie actors, so that we could ask our supplier for more movies with that list as lead actors/actress. As we have already registered all rented movies by its ID, it would suffice to add the leading actors list to its document and there it is! A nice favorite-actor-per-customer report.
+
+### Clients
+
+As for the clients, it would be enough to have these parameters:
+
+- Client full name
+- clients address
+–clients preferred movies genre
+
+The same premises from inventory are valid here: should we need any extra data, we could simply add them here.
+
+### Rental registration
+
+We also need to register each client's rentals, so that we keep track of which movies are most requested and what is due. We need the following information to be stored (we don't yet care of how or where these data are persisted):
+
+- Date
+- List of rented movies
+- Return date per movie
+- Total price
+- Price per movie
+- Notes
+
+This is all that we need to register each clients rentals and everything in inventory.
 
